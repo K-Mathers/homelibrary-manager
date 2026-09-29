@@ -1,0 +1,22 @@
+{
+  "name": "homelibrary-manager",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Desktop application for home library cataloging and reading tracker (Clean Architecture + DDD)",
+  "scripts": {
+    "install:all": "npm install && npm install --prefix frontend && npm install --prefix electron",
+    "dev:backend": "cd backend && uvicorn app.main:app --reload --port 8000",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:electron": "npm run dev --prefix electron",
+    "dev:web": "concurrently -k -n \"BACKEND,FRONTEND\" -c \"blue,green\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev": "concurrently -k -n \"BACKEND,FRONTEND,ELECTRON\" -c \"blue,green,magenta\" \"npm run dev:backend\" \"npm run dev:frontend\" \"wait-on http://127.0.0.1:8000/docs http://localhost:5173 && npm run dev:electron\"",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:electron": "npm run build --prefix electron",
+    "test:backend": "cd backend && pytest --cov=app tests/ --cov-report=term-missing"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "wait-on": "^7.2.0"
+  }
+}

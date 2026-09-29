@@ -1,0 +1,41 @@
+{
+  "name": "homelibrary-electron",
+  "version": "1.0.0",
+  "description": "HomeLibrary Manager Desktop Shell",
+  "main": "dist/main.js",
+  "scripts": {
+    "build:ts": "tsc",
+    "dev": "tsc && electron .",
+    "start": "electron .",
+    "build": "tsc && electron-builder"
+  },
+  "build": {
+    "appId": "com.homelibrary.manager",
+    "productName": "HomeLibrary Manager",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "../frontend/dist/**/*"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "artifactName": "HomeLibrary_Setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "cross-env": "^7.0.3",
+    "electron": "^29.1.5",
+    "electron-builder": "^24.13.3",
+    "typescript": "^5.2.2",
+    "wait-on": "^7.2.0"
+  }
+}

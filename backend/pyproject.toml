@@ -1,0 +1,15 @@
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP"]
+ignore = []
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["tests/*", "migrations/*"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
