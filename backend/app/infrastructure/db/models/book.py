@@ -43,7 +43,7 @@ class BookModel(Base):
         secondary=book_genres, back_populates="books"
     )
     tags: Mapped[List["TagModel"]] = relationship(
-        secondary=book_tags, back_populates="tags"
+        secondary=book_tags, back_populates="books"
     )
     reading_sessions: Mapped[List["ReadingSessionModel"]] = relationship(
         back_populates="book", cascade="all, delete-orphan"

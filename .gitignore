@@ -1,3 +1,6 @@
+# rewrite
+seed_data.py
+
 # Environment & Secrets
 .env
 .env.local
