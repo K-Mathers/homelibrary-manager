@@ -18,3 +18,9 @@ class InvalidPageCountError(DomainError):
 
 class InvalidMonthError(DomainError):
     pass
+
+class BookAlreadyExistsError(DomainError):
+    pass
+
+class BookNotFoundError(DomainError):
+    pass
