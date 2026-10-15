@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 from sqlalchemy import (
     Date,
     DateTime,
@@ -10,10 +10,10 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-
 from app.infrastructure.db.models.base import Base
 
-
+if TYPE_CHECKING:
+    from app.infrastructure.db.models.book import BookModel
 class ReadingSessionModel(Base):
     __tablename__ = "reading_sessions"
 
@@ -30,7 +30,6 @@ class ReadingSessionModel(Base):
     notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 
     book: Mapped["BookModel"] = relationship(back_populates="reading_sessions")
-
 
 class BookQuoteModel(Base):
     __tablename__ = "book_quotes"
