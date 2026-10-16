@@ -1,6 +1,7 @@
 from datetime import date
 from typing import Optional
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+from app.domain.entities.session import ReadingSession
 
 class ReadingSessionRequest(BaseModel):
     book_id: int = Field(..., description="ID книги")
@@ -16,7 +17,6 @@ class ReadingSessionRequest(BaseModel):
             raise ValueError("end_page must be greater than or equal to start_page")
         return self
 
-
 class ReadingSessionResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: Optional[int] = None
@@ -28,19 +28,30 @@ class ReadingSessionResponse(BaseModel):
     duration_minutes: int
     notes: Optional[str] = None
 
+    @classmethod
+    def from_domain(cls, session: ReadingSession) -> "ReadingSessionResponse":
+        return cls(
+            id=session.id,
+            book_id=session.book_id,
+            session_date=session.session_date,
+            start_page=session.page_range.start_page,
+            end_page=session.page_range.end_page,
+            pages_read=session.pages_read,
+            duration_minutes=session.duration_minutes,
+            notes=session.notes,
+        )
 
 class BookQuoteCreateRequest(BaseModel):
     book_id: int = Field(..., description="ID книги")
     quote_text: str = Field(..., min_length=1, description="Текст цитаты")
     page_number: Optional[int] = Field(None, ge=1, description="Номер страницы с цитатой")
 
-
 class BookQuoteResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
     id: Optional[int] = None
     book_id: int
     quote_text: str
     page_number: Optional[int] = None
-
 
 class ReadingStatsResponse(BaseModel):
     total_pages: int = Field(0, description="Прочитано страниц за выбранный период")

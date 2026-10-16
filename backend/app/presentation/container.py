@@ -53,13 +53,11 @@ def get_add_book_by_isbn_use_case(
         book_repo=repo, metadata_provider=provider, cover_storage=storage
     )
 
-
 def get_record_session_use_case(
     book_repo: AbstractBookRepository = Depends(get_book_repository),
     session_repo: AbstractSessionRepository = Depends(get_session_repository),
 ) -> RecordReadingSessionUseCase:
     return RecordReadingSessionUseCase(book_repo=book_repo, session_repo=session_repo)
-
 
 def get_reading_stats_use_case(
     session_repo: AbstractSessionRepository = Depends(get_session_repository),

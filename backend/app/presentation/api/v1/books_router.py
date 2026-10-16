@@ -26,7 +26,7 @@ async def get_catalog(
     books = await use_case.execute(query=query, status=status, author_id=author_id, genre_id=genre_id)
     return [BookResponse.from_domain(book) for book in books]
 
-@router.post("/isbn{isbn}", response_model=BookResponse, status_code=201)
+@router.post("/isbn/{isbn}", response_model=BookResponse, status_code=201)
 async def add_by_isbn(isbn: str, use_case: AddBookByIsbnUseCase = Depends(get_add_book_by_isbn_use_case)):
     book = await use_case.execute(raw_isbn=isbn)
     return BookResponse.from_domain(book)
