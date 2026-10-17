@@ -1,17 +1,39 @@
-# 4. Точка входа main.py и CORS
-# В 
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from app.presentation.api.v1 import books_router
+from app.infrastructure.config import settings
+from app.presentation.api.v1 import reading_router, stats_router
+from fastapi.middleware.cors import CORSMiddleware
+from app.domain.exceptions import BookAlreadyExistsError, BookNotFoundError, InvalidIsbnError, InvalidPageRangeError
 
-# app/main.py
-#  мы соединяем приложение:
+app = FastAPI(title="Library")
+origins = settings.CORS_ORIGINS
 
-# Инициализация FastAPI с названием и документацией.
-# CORSMiddleware: Разрешает браузеру и десктопному Electron/React приложению (порты http://localhost:5173, http://localhost:3000 и т.д.) делать AJAX-запросы к нашему API. Без этого браузер заблокирует запросы политикой Same-Origin.
-# Подключение роутеров:
-# python
-# app.include_router(books_router, prefix="/api/v1/books", tags=["Books"])
-# app.include_router(reading_router, prefix="/api/v1/reading", tags=["Reading"])
-# app.include_router(stats_router, prefix="/api/v1", tags=["Statistics & Backup"])
-# Маппинг бизнес-ошибок в HTTP-коды:
-# BookAlreadyExistsError ➔ 409 Conflict (или 400 Bad Request)
-# BookNotFoundError ➔ 404 Not Found
-# InvalidIsbnError, InvalidPageRangeError ➔ 422 Unprocessable Entity
+@app.exception_handler(BookAlreadyExistsError)
+async def book_already_exist_handler(req: Request, exc: BookAlreadyExistsError):
+    return JSONResponse(status_code=409, content={"detail": str(exc)})
+
+@app.exception_handler(BookNotFoundError)
+async def book_not_found_handler(req: Request, exc: BookNotFoundError):
+    return JSONResponse(status_code=404, content={"detail": str(exc)})
+
+@app.exception_handler(InvalidIsbnError)
+@app.exception_handler(InvalidPageRangeError)
+async def unprocessable_entity_handler(req: Request, exc: Exception):
+    return JSONResponse(status_code=422, content={"detail": str(exc)})
+
+app.include_router(books_router, prefix="/api/v1/books", tags=["Books"])
+app.include_router(reading_router, prefix="/api/v1/reading", tags=["Reading"])
+app.include_router(stats_router, prefix="/api/v1", tags=["Statistics & Backup"])
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)    
+
+@app.get("/")
+async def root():
+    return "Library API"
