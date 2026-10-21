@@ -1,5 +1,5 @@
-from typing import Optional
 from abc import ABC, abstractmethod
+
 from app.domain.entities.goal import ReadingGoal
 
 
@@ -10,6 +10,6 @@ class AbstractGoalRepository(ABC):
 
     @abstractmethod
     async def get_by_year_month(
-        self, year: int, month: Optional[int] = None
-    ) -> Optional[ReadingGoal]:
+        self, year: int, month: int | None = None
+    ) -> ReadingGoal | None:
         pass

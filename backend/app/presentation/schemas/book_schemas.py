@@ -1,24 +1,26 @@
-from typing import Optional
 from pydantic import BaseModel, ConfigDict, Field
+
 from app.domain.entities.book import Book
+
 
 class BookRequest(BaseModel):
     title: str = Field(..., min_length=1, description="Название книги")
     page_count: int = Field(..., gt=0, description="Количество страниц (строго > 0)")
-    raw_isbn: Optional[str] = Field(None, description="ISBN (10 или 13 цифр)")
-    publication_year: Optional[int] = Field(None, description="Год издания")
-    description: Optional[str] = Field(None, description="Описание книги")
+    raw_isbn: str | None = Field(None, description="ISBN (10 или 13 цифр)")
+    publication_year: int | None = Field(None, description="Год издания")
+    description: str | None = Field(None, description="Описание книги")
+
 
 class BookResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
-    id: Optional[int] = None
+    id: int | None = None
     title: str
-    isbn: Optional[str] = None
+    isbn: str | None = None
     page_count: int
-    publication_year: Optional[int] = None
-    description: Optional[str] = None
-    cover_image_path: Optional[str] = None
-    rating: Optional[int] = None
+    publication_year: int | None = None
+    description: str | None = None
+    cover_image_path: str | None = None
+    rating: int | None = None
     status: str
 
     @classmethod

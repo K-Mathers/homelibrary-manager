@@ -1,8 +1,9 @@
 from datetime import date
-from typing import Optional
+
 from app.application.dtos.reading_dto import ReadingStatisticsDTO
 from app.domain.ports.goal_repository import AbstractGoalRepository
 from app.domain.ports.session_repository import AbstractSessionRepository
+
 
 class GetReadingStatisticsUseCase:
     def __init__(
@@ -18,13 +19,17 @@ class GetReadingStatisticsUseCase:
         start_date: date,
         end_date: date,
         year: int,
-        month: Optional[int] = None,
+        month: int | None = None,
     ) -> ReadingStatisticsDTO:
-        period_pages = await self.session_repo.get_total_pages_by_period(start_date, end_date)
+        period_pages = await self.session_repo.get_total_pages_by_period(
+            start_date, end_date
+        )
 
         year_start = date(year, 1, 1)
         year_end = date(year, 12, 31)
-        year_pages = await self.session_repo.get_total_pages_by_period(year_start, year_end)
+        year_pages = await self.session_repo.get_total_pages_by_period(
+            year_start, year_end
+        )
 
         goal = await self.goal_repo.get_by_year_month(year, month)
         if not goal and month is not None:
@@ -44,4 +49,3 @@ class GetReadingStatisticsUseCase:
             goal=target_pages,
             pages_progress=pages_progress,
         )
-        

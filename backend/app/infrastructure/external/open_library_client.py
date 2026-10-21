@@ -1,9 +1,12 @@
-from app.infrastructure.config import settings
-from typing import Any, Optional
+from typing import Any
+
 import httpx
+
 from app.application.dtos.book_dto import BookMetadataDTO
 from app.domain.ports.isbn_metadata_provider import AbstractIsbnMetadataProvider
 from app.domain.value_objects.isbn import ISBN
+from app.infrastructure.config import settings
+
 
 class OpenLibraryClient(AbstractIsbnMetadataProvider):
     def __init__(self) -> None:
@@ -12,7 +15,7 @@ class OpenLibraryClient(AbstractIsbnMetadataProvider):
     async def aclose(self) -> None:
         await self._http.aclose()
 
-    async def fetch_by_isbn(self, isbn: ISBN) -> Optional[BookMetadataDTO]:
+    async def fetch_by_isbn(self, isbn: ISBN) -> BookMetadataDTO | None:
         bibkey = f"ISBN:{isbn.value}"
         params = {"bibkeys": bibkey, "format": "json", "jscmd": "data"}
 
@@ -51,7 +54,7 @@ class OpenLibraryClient(AbstractIsbnMetadataProvider):
         ]
 
     @staticmethod
-    def _publisher(data: dict[str, Any]) -> Optional[str]:
+    def _publisher(data: dict[str, Any]) -> str | None:
         pubs = data.get("publishers") or []
         first = pubs[0] if pubs else None
         if isinstance(first, dict):
@@ -59,7 +62,7 @@ class OpenLibraryClient(AbstractIsbnMetadataProvider):
         return None
 
     @staticmethod
-    def _year(data: dict[str, Any]) -> Optional[int]:
+    def _year(data: dict[str, Any]) -> int | None:
         raw: str = data.get("publish_date") or ""
         for part in raw.split():
             digits = part.strip(",-.")
@@ -68,13 +71,13 @@ class OpenLibraryClient(AbstractIsbnMetadataProvider):
         return None
 
     @staticmethod
-    def _description(data: dict[str, Any]) -> Optional[str]:
+    def _description(data: dict[str, Any]) -> str | None:
         desc = data.get("description")
         if isinstance(desc, dict):
             return desc.get("value")
         return desc or None
 
     @staticmethod
-    def _cover_url(data: dict[str, Any]) -> Optional[str]:
+    def _cover_url(data: dict[str, Any]) -> str | None:
         cover = data.get("cover") or {}
         return cover.get("large") or cover.get("medium")

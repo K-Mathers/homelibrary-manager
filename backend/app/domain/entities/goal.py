@@ -1,13 +1,13 @@
-from app.domain.exceptions import InvalidMonthError
-from app.domain.exceptions import InvalidPageCountError
-from typing import Optional
 from dataclasses import dataclass
+
+from app.domain.exceptions import InvalidMonthError, InvalidPageCountError
+
 
 @dataclass
 class ReadingGoal:
-    id: Optional[int]
+    id: int | None
     year: int
-    month: Optional[int] = None
+    month: int | None = None
     target_books: int = 0
     target_pages: int = 0
 
@@ -30,10 +30,10 @@ class ReadingGoal:
         return min(100.0, round((current_pages / self.target_pages) * 100, 2))
 
     def is_achieved(self, current_books: int, current_pages: int) -> bool:
-        books_ok = (current_books >= self.target_books) if self.target_books > 0 else True
-        pages_ok = (current_pages >= self.target_pages) if self.target_pages > 0 else True
+        books_ok = (
+            (current_books >= self.target_books) if self.target_books > 0 else True
+        )
+        pages_ok = (
+            (current_pages >= self.target_pages) if self.target_pages > 0 else True
+        )
         return books_ok and pages_ok
-
-    
-    
-        

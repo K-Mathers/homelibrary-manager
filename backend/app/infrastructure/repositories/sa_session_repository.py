@@ -1,11 +1,13 @@
 from datetime import date
-from typing import List
+
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.domain.entities.session import ReadingSession
 from app.domain.ports.session_repository import AbstractSessionRepository
 from app.domain.value_objects.page_range import PageRange
 from app.infrastructure.db.models.reading import ReadingSessionModel
+
 
 class SASessionRepository(AbstractSessionRepository):
     def __init__(self, session: AsyncSession) -> None:
@@ -39,7 +41,7 @@ class SASessionRepository(AbstractSessionRepository):
         await self.session.refresh(model)
         return self._to_domain(model)
 
-    async def get_by_book_id(self, book_id: int) -> List[ReadingSession]:
+    async def get_by_book_id(self, book_id: int) -> list[ReadingSession]:
         stmt = (
             select(ReadingSessionModel)
             .where(ReadingSessionModel.book_id == book_id)

@@ -1,14 +1,15 @@
 import csv
+import shutil
 from io import StringIO
 from pathlib import Path
-import shutil
-from typing import List, Optional
+
 from app.domain.entities.book import Book
 from app.infrastructure.config import settings
 
+
 class CsvExportFile:
     @staticmethod
-    def export_books(books: List[Book]) -> str:
+    def export_books(books: list[Book]) -> str:
         header = ["ID", "Title", "ISBN", "PageCount", "Status", "Rating"]
         output = StringIO()
 
@@ -16,19 +17,21 @@ class CsvExportFile:
         writer.writerow(header)
 
         for book in books:
-            writer.writerow([
-                book.id if book.id is not None else "",
-                book.title,
-                book.isbn.value if book.isbn else "",
-                book.page_count,
-                book.status,
-                book.rating.value if book.rating else "",
-            ])
+            writer.writerow(
+                [
+                    book.id if book.id is not None else "",
+                    book.title,
+                    book.isbn.value if book.isbn else "",
+                    book.page_count,
+                    book.status,
+                    book.rating.value if book.rating else "",
+                ]
+            )
 
         return output.getvalue()
 
     @staticmethod
-    def backup_database(destination_path: Optional[Path] = None) -> Path:
+    def backup_database(destination_path: Path | None = None) -> Path:
         raw_db_url = settings.DATABASE_URL
         db_path_str = raw_db_url.split(":///")[-1]
         source_path = Path(db_path_str)
@@ -45,4 +48,3 @@ class CsvExportFile:
 
         shutil.copy2(source_path, destination_path)
         return destination_path
-        

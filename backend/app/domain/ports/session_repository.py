@@ -1,7 +1,8 @@
-from datetime import date
 from abc import ABC, abstractmethod
-from typing import List
+from datetime import date
+
 from app.domain.entities.session import ReadingSession
+
 
 class AbstractSessionRepository(ABC):
     @abstractmethod
@@ -9,7 +10,7 @@ class AbstractSessionRepository(ABC):
         pass
 
     @abstractmethod
-    async def get_by_book_id(self, book_id: int) -> List[ReadingSession]:
+    async def get_by_book_id(self, book_id: int) -> list[ReadingSession]:
         pass
 
     @abstractmethod

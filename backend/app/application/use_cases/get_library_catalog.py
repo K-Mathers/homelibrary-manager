@@ -1,4 +1,3 @@
-from typing import Optional, List
 from app.domain.entities.book import Book
 from app.domain.ports.book_repository import AbstractBookRepository
 
@@ -9,11 +8,11 @@ class GetLibraryCatalogUseCase:
 
     async def execute(
         self,
-        query: Optional[str] = None,
-        status: Optional[str] = None,
-        author_id: Optional[int] = None,
-        genre_id: Optional[int] = None,
-    ) -> List[Book]:
+        query: str | None = None,
+        status: str | None = None,
+        author_id: int | None = None,
+        genre_id: int | None = None,
+    ) -> list[Book]:
 
         saved_books = await self.book_repo.search_book(
             query=query,

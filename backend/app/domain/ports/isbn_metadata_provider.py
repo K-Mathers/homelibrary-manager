@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import Optional
-from app.domain.value_objects.isbn import ISBN
+
 from app.application.dtos.book_dto import BookMetadataDTO
+from app.domain.value_objects.isbn import ISBN
+
 
 class AbstractIsbnMetadataProvider(ABC):
     @abstractmethod
-    async def fetch_by_isbn(self, isbn: ISBN) -> Optional[BookMetadataDTO]:
+    async def fetch_by_isbn(self, isbn: ISBN) -> BookMetadataDTO | None:
         pass

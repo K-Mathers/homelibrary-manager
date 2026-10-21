@@ -1,7 +1,7 @@
-from typing import List, Optional
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
+
 from app.domain.entities.book import Book
 from app.domain.ports.book_repository import AbstractBookRepository
 from app.domain.value_objects.isbn import ISBN
@@ -9,11 +9,12 @@ from app.domain.value_objects.rating import Rating
 from app.infrastructure.db.models.book import BookModel
 from app.infrastructure.db.models.lookups import AuthorModel, GenreModel
 
+
 class SABookRepository(AbstractBookRepository):
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
-    async def _get_model(self, *clauses) -> Optional[BookModel]:
+    async def _get_model(self, *clauses) -> BookModel | None:
         stmt = (
             select(BookModel)
             .where(*clauses)
@@ -29,7 +30,6 @@ class SABookRepository(AbstractBookRepository):
             return []
         stmt = select(model_cls).where(model_cls.id.in_(ids))
         return list((await self.session.scalars(stmt)).all())
-
 
     def _to_domain(self, model: BookModel) -> Book:
         return Book(
@@ -69,21 +69,21 @@ class SABookRepository(AbstractBookRepository):
         model.rating = int(entity.rating) if entity.rating is not None else None
         model.status = entity.status
 
-    async def get_by_id(self, book_id: int) -> Optional[Book]:
+    async def get_by_id(self, book_id: int) -> Book | None:
         model = await self._get_model(BookModel.id == book_id)
         return self._to_domain(model) if model else None
 
-    async def get_by_isbn(self, isbn: ISBN) -> Optional[Book]:
+    async def get_by_isbn(self, isbn: ISBN) -> Book | None:
         model = await self._get_model(BookModel.isbn == isbn.value)
         return self._to_domain(model) if model else None
 
     async def search_book(
         self,
-        query: Optional[str] = None,
-        status: Optional[str] = None,
-        author_id: Optional[int] = None,
-        genre_id: Optional[int] = None,
-    ) -> List[Book]:
+        query: str | None = None,
+        status: str | None = None,
+        author_id: int | None = None,
+        genre_id: int | None = None,
+    ) -> list[Book]:
         stmt = select(BookModel).options(
             selectinload(BookModel.authors),
             selectinload(BookModel.genres),

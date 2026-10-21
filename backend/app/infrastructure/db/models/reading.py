@@ -1,5 +1,6 @@
 from datetime import date, datetime
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING
+
 from sqlalchemy import (
     Date,
     DateTime,
@@ -10,10 +11,13 @@ from sqlalchemy import (
     func,
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
 from app.infrastructure.db.models.base import Base
 
 if TYPE_CHECKING:
     from app.infrastructure.db.models.book import BookModel
+
+
 class ReadingSessionModel(Base):
     __tablename__ = "reading_sessions"
 
@@ -27,9 +31,10 @@ class ReadingSessionModel(Base):
     start_page: Mapped[int] = mapped_column(Integer, nullable=False)
     end_page: Mapped[int] = mapped_column(Integer, nullable=False)
     duration_minutes: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
-    notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    notes: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     book: Mapped["BookModel"] = relationship(back_populates="reading_sessions")
+
 
 class BookQuoteModel(Base):
     __tablename__ = "book_quotes"
@@ -39,7 +44,7 @@ class BookQuoteModel(Base):
         Integer, ForeignKey("books.id", ondelete="CASCADE"), nullable=False
     )
     quote_text: Mapped[str] = mapped_column(Text, nullable=False)
-    page_number: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    page_number: Mapped[int | None] = mapped_column(Integer, nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime, default=func.current_timestamp(), nullable=False
     )
@@ -50,12 +55,10 @@ class BookQuoteModel(Base):
 class ReadingGoalModel(Base):
     __tablename__ = "reading_goals"
 
-    __table_args__ = (
-        UniqueConstraint("year", "month", name="uq_goal_year_month"),
-    )
+    __table_args__ = (UniqueConstraint("year", "month", name="uq_goal_year_month"),)
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     year: Mapped[int] = mapped_column(Integer, nullable=False)
-    month: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    month: Mapped[int | None] = mapped_column(Integer, nullable=True)
     target_books: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     target_pages: Mapped[int] = mapped_column(Integer, default=0, nullable=False)

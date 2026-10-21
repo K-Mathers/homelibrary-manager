@@ -1,10 +1,11 @@
 from datetime import date
-from typing import Optional
+
 from app.domain.entities.session import ReadingSession
 from app.domain.exceptions import BookNotFoundError
 from app.domain.ports.book_repository import AbstractBookRepository
 from app.domain.ports.session_repository import AbstractSessionRepository
 from app.domain.value_objects.page_range import PageRange
+
 
 class RecordReadingSessionUseCase:
     def __init__(
@@ -21,8 +22,8 @@ class RecordReadingSessionUseCase:
         start_page: int,
         end_page: int,
         duration_minutes: int = 0,
-        notes: Optional[str] = None,
-        session_date: Optional[date] = None,
+        notes: str | None = None,
+        session_date: date | None = None,
     ) -> ReadingSession:
         book = await self.book_repo.get_by_id(book_id)
         if not book:

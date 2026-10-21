@@ -1,9 +1,12 @@
-from app.infrastructure.config import settings
-from typing import Any, Optional
+from typing import Any
+
 import httpx
+
 from app.application.dtos.book_dto import BookMetadataDTO
 from app.domain.ports.isbn_metadata_provider import AbstractIsbnMetadataProvider
 from app.domain.value_objects.isbn import ISBN
+from app.infrastructure.config import settings
+
 
 class GoogleBooksClient(AbstractIsbnMetadataProvider):
     def __init__(self) -> None:
@@ -12,7 +15,7 @@ class GoogleBooksClient(AbstractIsbnMetadataProvider):
     async def aclose(self) -> None:
         await self._http.aclose()
 
-    async def fetch_by_isbn(self, isbn: ISBN) -> Optional[BookMetadataDTO]:
+    async def fetch_by_isbn(self, isbn: ISBN) -> BookMetadataDTO | None:
         params = {"q": f"isbn:{isbn.value}"}
 
         try:
@@ -46,18 +49,18 @@ class GoogleBooksClient(AbstractIsbnMetadataProvider):
         return data.get("authors", [])
 
     @staticmethod
-    def _publisher(data: dict[str, Any]) -> Optional[str]:
+    def _publisher(data: dict[str, Any]) -> str | None:
         return data.get("publisher")
 
     @staticmethod
-    def _year(data: dict[str, Any]) -> Optional[int]:
+    def _year(data: dict[str, Any]) -> int | None:
         raw = data.get("publishedDate") or ""
         return int(raw[:4]) if len(raw) >= 4 and raw[:4].isdigit() else None
 
     @staticmethod
-    def _description(data: dict[str, Any]) -> Optional[str]:
+    def _description(data: dict[str, Any]) -> str | None:
         return data.get("description")
 
     @staticmethod
-    def _cover_url(data: dict[str, Any]) -> Optional[str]:
+    def _cover_url(data: dict[str, Any]) -> str | None:
         return data.get("imageLinks", {}).get("thumbnail")

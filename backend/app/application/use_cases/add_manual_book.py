@@ -1,8 +1,8 @@
-from typing import List, Optional
 from app.domain.entities.book import Book
 from app.domain.exceptions import BookAlreadyExistsError
 from app.domain.ports.book_repository import AbstractBookRepository
 from app.domain.value_objects.isbn import ISBN
+
 
 class AddManualBookUseCase:
     def __init__(self, book_repo: AbstractBookRepository) -> None:
@@ -12,11 +12,11 @@ class AddManualBookUseCase:
         self,
         title: str,
         page_count: int,
-        raw_isbn: Optional[str] = None,
-        publication_year: Optional[int] = None,
-        description: Optional[str] = None,
-        author_ids: Optional[List[int]] = None,
-        genre_ids: Optional[List[int]] = None,
+        raw_isbn: str | None = None,
+        publication_year: int | None = None,
+        description: str | None = None,
+        author_ids: list[int] | None = None,
+        genre_ids: list[int] | None = None,
     ) -> Book:
         isbn = None
 

@@ -1,4 +1,4 @@
-from typing import List
+
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -16,7 +16,7 @@ class AuthorModel(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     full_name: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
 
-    books: Mapped[List["BookModel"]] = relationship(
+    books: Mapped[list["BookModel"]] = relationship(
         secondary=book_authors, back_populates="authors"
     )
 
@@ -27,7 +27,7 @@ class GenreModel(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
 
-    books: Mapped[List["BookModel"]] = relationship(
+    books: Mapped[list["BookModel"]] = relationship(
         secondary=book_genres, back_populates="genres"
     )
 
@@ -38,7 +38,7 @@ class PublisherModel(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
 
-    books: Mapped[List["BookModel"]] = relationship(back_populates="publisher")
+    books: Mapped[list["BookModel"]] = relationship(back_populates="publisher")
 
 
 class TagModel(Base):
@@ -47,6 +47,6 @@ class TagModel(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
 
-    books: Mapped[List["BookModel"]] = relationship(
+    books: Mapped[list["BookModel"]] = relationship(
         secondary=book_tags, back_populates="tags"
     )

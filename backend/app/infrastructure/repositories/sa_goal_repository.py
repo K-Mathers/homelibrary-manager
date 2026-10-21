@@ -1,9 +1,10 @@
-from typing import Optional
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.domain.entities.goal import ReadingGoal
 from app.domain.ports.goal_repository import AbstractGoalRepository
 from app.infrastructure.db.models.reading import ReadingGoalModel
+
 
 class SAGoalRepository(AbstractGoalRepository):
     def __init__(self, session: AsyncSession) -> None:
@@ -27,7 +28,9 @@ class SAGoalRepository(AbstractGoalRepository):
             target_pages=entity.target_pages,
         )
 
-    async def get_by_year_month(self, year: int, month: Optional[int] = None) -> Optional[ReadingGoal]:
+    async def get_by_year_month(
+        self, year: int, month: int | None = None
+    ) -> ReadingGoal | None:
         stmt = select(ReadingGoalModel).where(
             ReadingGoalModel.year == year,
             ReadingGoalModel.month == month,
