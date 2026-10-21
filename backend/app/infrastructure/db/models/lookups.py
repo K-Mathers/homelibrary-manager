@@ -1,3 +1,4 @@
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -8,6 +9,9 @@ from app.infrastructure.db.models.associations import (
     book_tags,
 )
 from app.infrastructure.db.models.base import Base
+
+if TYPE_CHECKING:
+    from app.infrastructure.db.models.book import BookModel
 
 
 class AuthorModel(Base):

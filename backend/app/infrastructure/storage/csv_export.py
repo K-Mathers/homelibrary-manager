@@ -33,6 +33,9 @@ class CsvExportFile:
     @staticmethod
     def backup_database(destination_path: Path | None = None) -> Path:
         raw_db_url = settings.DATABASE_URL
+        if "postgresql" in raw_db_url:
+            raise NotImplementedError("Для PostgreSQL используйте экспорт данных в CSV.")
+
         db_path_str = raw_db_url.split(":///")[-1]
         source_path = Path(db_path_str)
 

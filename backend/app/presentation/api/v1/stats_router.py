@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, HTTPException, Response
 
 from app.application.use_cases.get_reading_statistics import GetReadingStatisticsUseCase
 from app.domain.ports.book_repository import AbstractBookRepository
@@ -42,3 +42,19 @@ async def export_csv(repo: AbstractBookRepository = Depends(get_book_repository)
         media_type="text/csv",
         headers={"Content-Disposition": "attachment; filename=library_export.csv"},
     )
+
+
+@router.post("/backup/database")
+async def backup_database():
+    try:
+        backup_path = CsvExportFile.backup_database()
+        return {
+            "status": "success",
+            "message": "Резервная копия базы данных успешно создана",
+            "filename": backup_path.name,
+            "path": str(backup_path),
+        }
+    except NotImplementedError as exc:
+        raise HTTPException(status_code=400, detail=str(exc))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Не удалось создать резервную копию: {exc}")
