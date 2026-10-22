@@ -16,7 +16,9 @@ class GoogleBooksClient(AbstractIsbnMetadataProvider):
         await self._http.aclose()
 
     async def fetch_by_isbn(self, isbn: ISBN) -> BookMetadataDTO | None:
-        params = {"q": f"isbn:{isbn.value}"}
+        params: dict[str, Any] = {"q": f"isbn:{isbn.value}"}
+        if settings.GOOGLE_BOOKS_API_KEY:
+            params["key"] = settings.GOOGLE_BOOKS_API_KEY
 
         try:
             response = await self._http.get(settings.GOOGLE_BOOKS_URL, params=params)

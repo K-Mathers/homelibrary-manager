@@ -1,10 +1,7 @@
 import csv
-import shutil
 from io import StringIO
-from pathlib import Path
 
 from app.domain.entities.book import Book
-from app.infrastructure.config import settings
 
 
 class CsvExportFile:
@@ -29,25 +26,3 @@ class CsvExportFile:
             )
 
         return output.getvalue()
-
-    @staticmethod
-    def backup_database(destination_path: Path | None = None) -> Path:
-        raw_db_url = settings.DATABASE_URL
-        if "postgresql" in raw_db_url:
-            raise NotImplementedError("Для PostgreSQL используйте экспорт данных в CSV.")
-
-        db_path_str = raw_db_url.split(":///")[-1]
-        source_path = Path(db_path_str)
-
-        if not source_path.exists():
-            raise FileNotFoundError(f"Database file not found: {source_path}")
-
-        if destination_path is None:
-            backup_dir = Path("./storage/backups")
-            backup_dir.mkdir(parents=True, exist_ok=True)
-            destination_path = backup_dir / f"backup_{source_path.name}"
-        else:
-            destination_path.parent.mkdir(parents=True, exist_ok=True)
-
-        shutil.copy2(source_path, destination_path)
-        return destination_path
