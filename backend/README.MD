@@ -76,7 +76,7 @@ graph TD
         SAGoalRepo["SAReadingGoalRepository"]
         OpenLibraryClient["OpenLibraryClient (HTTPX)"]
         GoogleBooksClient["GoogleBooksClient (HTTPX)"]
-        CoverStorage["LocalCoverStorage (Pillow)"]
+        CoverStorage["LocalCoverStorage"]
         CsvExporter["CsvExportFile (csv.writer)"]
         DBEngine["PostgreSQL Engine (asyncpg)"]
     end
@@ -101,12 +101,12 @@ graph TD
     RecordSessionUC --> Ports
     GetStatsUC --> Ports
 
-    Ports <|.. SABookRepo
-    Ports <|.. SASessionRepo
-    Ports <|.. SAGoalRepo
-    Ports <|.. OpenLibraryClient
-    Ports <|.. GoogleBooksClient
-    Ports <|.. CoverStorage
+    SABookRepo -.->|implements| Ports
+    SASessionRepo -.->|implements| Ports
+    SAGoalRepo -.->|implements| Ports
+    OpenLibraryClient -.->|implements| Ports
+    GoogleBooksClient -.->|implements| Ports
+    CoverStorage -.->|implements| Ports
 
     SABookRepo --> DBEngine
     SASessionRepo --> DBEngine
