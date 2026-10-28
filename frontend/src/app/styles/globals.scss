@@ -1,0 +1,74 @@
+@use '@/shared/styles/variables.scss' as *;
+@use '@/shared/styles/mixins.scss' as *;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg-canvas: #{$color-bg-canvas};
+  --color-surface-1: #{$color-surface-1};
+  --color-surface-2: #{$color-surface-2};
+  --color-surface-hover: #{$color-surface-hover};
+  --color-border: #{$color-border};
+  --color-border-subtle: #{$color-border-subtle};
+  --color-text-primary: #{$color-text-primary};
+  --color-text-secondary: #{$color-text-secondary};
+  --color-text-muted: #{$color-text-muted};
+  --color-accent: #{$color-accent};
+  --font-serif: #{$font-serif};
+  --font-sans: #{$font-sans};
+  --font-mono: #{$font-mono};
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $color-bg-canvas;
+  color: $color-text-primary;
+  font-family: $font-sans;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+input,
+button,
+textarea,
+select {
+  font-family: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background-color: $color-accent;
+  color: $color-surface-1;
+}
+
+* {
+  @include dark-scrollbar;
+}

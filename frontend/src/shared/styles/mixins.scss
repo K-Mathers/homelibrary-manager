@@ -1,0 +1,85 @@
+@use './variables.scss' as *;
+
+@mixin macos-card($radius: $radius-lg, $interactive: false) {
+  background-color: $color-surface-2;
+  border: 1px solid $color-border;
+  border-radius: $radius;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+
+  @if $interactive {
+    transition: background-color $transition-fast, border-color $transition-fast, transform $transition-fast;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $color-surface-hover;
+      border-color: $color-border-highlight;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+      background-color: $color-surface-active;
+    }
+  }
+}
+
+@mixin frosted-glass($bg: rgba(18, 18, 22, 0.85), $blur: 16px) {
+  background-color: $bg;
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+  border-color: $color-border-subtle;
+}
+
+@mixin text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin macos-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-sm;
+  font-family: $font-sans;
+  font-size: 13px;
+  font-weight: 500;
+  height: 32px;
+  padding: 0 $space-md;
+  border-radius: $radius-md;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all $transition-fast;
+  user-select: none;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin dark-scrollbar {
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 9999px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+}
