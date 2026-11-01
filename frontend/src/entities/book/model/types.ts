@@ -1,4 +1,4 @@
-export type BookStatus = 'unread' | 'reading' | 'read' | 'abandoned';
+export type BookStatus = "unread" | "reading" | "read"
 
 export interface Book {
   id: number;
@@ -11,6 +11,8 @@ export interface Book {
   rating?: number | null;
   status: BookStatus;
   created_at?: string;
+  authors?: Array<{ id: number; full_name: string }>;
+  genres?: Array<{ id: number; name: string }>;
   current_page?: number;
 }
 
