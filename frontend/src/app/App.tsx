@@ -1,9 +1,10 @@
-import React from 'react';
+import { Sidebar } from "@/widgets/sidebar/ui/Sidebar";
+import React from "react";
 
 export const App: React.FC = () => {
   return (
     <div className="app">
-      {/* HomeLibrary Manager */}
+      <Sidebar />
     </div>
   );
 };
