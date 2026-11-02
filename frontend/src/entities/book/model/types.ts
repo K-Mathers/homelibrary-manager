@@ -23,3 +23,6 @@ export interface BookCreateManualRequest {
   publication_year?: number | null;
   description?: string | null;
 }
+
+export type CreateBookDto = BookCreateManualRequest;
+
