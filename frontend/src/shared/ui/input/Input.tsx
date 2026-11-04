@@ -7,8 +7,6 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   hotkey?: string;
 }
 
-export type IInputProps = InputProps;
-
 export const Input = ({
   leftIcon,
   rightSlot,
