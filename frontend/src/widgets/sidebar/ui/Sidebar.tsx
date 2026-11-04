@@ -1,48 +1,64 @@
 import { NavLink } from "react-router-dom";
 import styles from "./Sidebar.module.scss";
+import { ReactNode, useState } from "react";
+import { CatalogSVG, DownloadSVG, LogoSVG, NotesSVG, StatsSVG } from "@/assets";
+import { Button } from "@/shared/ui";
 
 interface INavItem {
-    title: string;
-    to: string;
-    icon: string;
+  title: string;
+  to: string;
+  icon: ReactNode;
 }
 
 const items: INavItem[] = [
-  { title: "Каталог", to: "/catalog", icon: "/catalog.svg" },
-  { title: "Читательский дневник", to: "/journal", icon: "/book-open-reader-solid.svg" },
-  { title: "Статистика", to: "/stats", icon: "/chart-no-axes-combined.svg"},
+  { title: "Каталог", to: "/catalog", icon: <CatalogSVG size={18} /> },
+  {
+    title: "Читательский дневник",
+    to: "/journal",
+    icon: <NotesSVG size={18} />,
+  },
+  { title: "Статистика", to: "/stats", icon: <StatsSVG size={18} /> },
 ];
 
-export const Sidebar = ({}) => {
+export const Sidebar = () => {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   return (
-    <div className={styles.sidebar}>
-        <div className={styles.brand}>
-          <img src="./homelibrary-logo.svg" alt="" />
-          <p>HomeLibrary</p>
-        </div>
-
-        <div className={styles.section}>
-            <p className={styles.sectionTitle}>БИБЛИОТЕКА</p>
-            <nav className={styles.nav}>
-            {items.map((item) => {
-                return (
-                    <NavLink to={item.to} key={item.to} className={({ isActive }) => 
-                        `${styles.navItem} ${isActive ? styles.active : ""}`
-                    }
-                  >
-                    <img src="" alt="" className={styles.navIcon} />
-                    <span>{item.title}</span>
-                    </NavLink>
-                )
-            })}
-            </nav>
-        </div>
-
-        <div className={styles.footer}>
-          <button>
-            <p>Экспорт в CSV</p>
-          </button>
-        </div>
+    <aside
+      className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ""}`}
+    >
+      <div
+        className={styles.brand}
+        onClick={() => setIsCollapsed(!isCollapsed)}
+      >
+        <LogoSVG size={22} className={styles.logo} />
+        {!isCollapsed && <p className={styles.brandText}>HomeLibrary</p>}
       </div>
+
+      <div className={styles.section}>
+        <nav className={styles.nav}>
+          {items.map((item) => {
+            return (
+              <NavLink
+                to={item.to}
+                key={item.to}
+                className={({ isActive }) =>
+                  `${styles.navItem} ${isActive ? styles.active : ""}`
+                }
+              >
+                <span className={styles.navIcon}>{item.icon}</span>
+                {!isCollapsed && <span>{item.title}</span>}
+              </NavLink>
+            );
+          })}
+        </nav>
+      </div>
+
+      <div className={styles.footer}>
+        <Button variant="outlined" icon={<DownloadSVG size={15} />}>
+          {!isCollapsed && "Экспорт в CSV"}
+        </Button>
+      </div>
+    </aside>
   );
 };

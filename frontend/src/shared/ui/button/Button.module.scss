@@ -14,10 +14,16 @@
   user-select: none;
   white-space: nowrap;
   outline: none;
-  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, transform 150ms ease;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease,
+    transform 150ms ease;
 
   &:focus-visible {
-    box-shadow: 0 0 0 2px var(--color-bg-canvas), 0 0 0 4px var(--color-accent);
+    box-shadow:
+      0 0 0 2px var(--color-bg-canvas),
+      0 0 0 4px var(--color-accent);
   }
 
   &:disabled {

@@ -1,0 +1,124 @@
+.sidebar {
+  width: 240px;
+  min-width: 240px;
+  height: 100vh;
+  background-color: var(--color-surface-1);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 16px;
+  transition:
+    width 200ms ease,
+    min-width 200ms ease,
+    padding 200ms ease;
+  user-select: none;
+  box-sizing: border-box;
+
+  &.collapsed {
+    width: 72px;
+    min-width: 72px;
+    padding: 24px 10px;
+
+    .brand {
+      justify-content: center;
+    }
+
+    .navItem {
+      justify-content: center;
+      padding: 0;
+    }
+
+    .footer {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 7px;
+  transition: background-color 150ms ease;
+
+  &:hover {
+    background-color: var(--color-surface-hover);
+  }
+}
+
+.logo {
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+.brandText {
+  font-family: var(--font-sans);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  margin-top: 36px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 7px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 150ms ease;
+
+  &:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-surface-hover);
+  }
+
+  &.active {
+    background-color: rgba(217, 155, 67, 0.08);
+    color: var(--color-accent);
+
+    .navIcon {
+      color: var(--color-accent);
+    }
+  }
+}
+
+.navIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.footer {
+  padding-top: 16px;
+
+  button {
+    width: 100%;
+  }
+}
