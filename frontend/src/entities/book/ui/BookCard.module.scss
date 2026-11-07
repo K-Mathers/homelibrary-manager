@@ -1,30 +1,71 @@
 .card {
   display: flex;
   flex-direction: column;
-  background-color: var(--color-surface-2);
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  padding: 10px;
+  width: 100%;
   cursor: pointer;
-  transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
   user-select: none;
-  overflow: hidden;
 
   &:hover {
-    transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.12);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.45);
+    .previewContainer {
+      border-color: rgba(255, 255, 255, 0.16);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
   }
 }
 
-.coverWrapper {
+.previewContainer {
   position: relative;
   width: 100%;
-  aspect-ratio: 2 / 3;
-  border-radius: 6px;
+  height: 234px;
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
+  transition:
+    transform 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.moreButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: 4px;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition:
+    color 150ms ease,
+    background-color 150ms ease;
+
+  &:hover {
+    color: var(--color-text-primary);
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+}
+
+.bookCover {
+  width: 148px;
+  height: 222px;
+  border-radius: 4px;
   background-color: var(--color-placeholder-fill);
   border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .coverImage {
@@ -37,42 +78,104 @@
 .coverPlaceholder {
   width: 100%;
   height: 100%;
+  padding: 16px 12px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-placeholder-fill);
+  text-align: center;
+  gap: 10px;
 }
 
 .placeholderIcon {
   color: var(--color-text-muted);
 }
 
+.coverInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.coverTitle {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  line-height: 1.25;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.coverAuthor {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  line-height: 1.2;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  padding-top: 10px;
+  gap: 2px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.author {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 6px;
+  min-height: 16px;
+}
+
 .statusBadge {
-  position: absolute;
-  top: 8px;
-  right: 8px;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  height: 22px;
-  padding: 0 8px;
-  border-radius: 9999px;
+  gap: 6px;
   font-family: var(--font-sans);
   font-size: 11px;
   font-weight: 500;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 .statusDot {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .statusReading {
-  background-color: rgba(14, 14, 17, 0.85);
-  border: 1px solid rgba(217, 155, 67, 0.3);
   color: var(--color-accent);
 
   .statusDot {
@@ -81,8 +184,6 @@
 }
 
 .statusCompleted {
-  background-color: rgba(14, 14, 17, 0.85);
-  border: 1px solid rgba(16, 185, 129, 0.3);
   color: var(--color-status-completed);
 
   .statusDot {
@@ -91,8 +192,6 @@
 }
 
 .statusPlanned {
-  background-color: rgba(14, 14, 17, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--color-text-secondary);
 
   .statusDot {
@@ -100,57 +199,13 @@
   }
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  padding-top: 10px;
-  gap: 6px;
-}
-
-.metaRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  font-size: 11px;
-}
-
-.author {
-  color: var(--color-text-secondary);
+.progressText {
   font-family: var(--font-sans);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  font-size: 11px;
+  color: var(--color-text-secondary);
 }
 
-.year {
-  color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  flex-shrink: 0;
-}
-
-.title {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: 15px;
-  line-height: 1.3;
-  font-weight: 500;
-  color: var(--color-text-primary);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  min-height: 38px;
-}
-
-.footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 2px;
-}
-
-.rating {
+.stars {
   display: flex;
   align-items: center;
   gap: 2px;
@@ -166,23 +221,13 @@
   fill: #2e2e34;
 }
 
-.ratingEmpty {
-  font-size: 11px;
-  color: var(--color-text-muted);
-}
-
-.progressPercent {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--color-accent);
-}
-
 .progressBar {
   width: 100%;
   height: 3px;
   background-color: var(--color-border);
   border-radius: 9999px;
   overflow: hidden;
+  margin-top: 6px;
 }
 
 .progressFill {

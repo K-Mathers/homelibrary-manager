@@ -1,6 +1,7 @@
 .sidebar {
   width: 240px;
   min-width: 240px;
+  flex-shrink: 0;
   height: 100vh;
   background-color: var(--color-surface-1);
   border-right: 1px solid var(--color-border);
@@ -34,6 +35,45 @@
       justify-content: center;
     }
   }
+
+  @media (max-width: 900px) {
+    width: 72px;
+    min-width: 72px;
+    padding: 20px 8px;
+
+    .brand {
+      justify-content: center;
+    }
+
+    .brandText {
+      display: none;
+    }
+
+    .sectionTitle {
+      display: none;
+    }
+
+    .navItem {
+      justify-content: center;
+      padding: 0;
+
+      span:not(.navIcon) {
+        display: none;
+      }
+    }
+
+    .footer {
+      button {
+        padding: 0;
+        width: 36px;
+        height: 36px;
+
+        span:not(.icon) {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 .brand {
@@ -56,7 +96,7 @@
 }
 
 .brandText {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: 19px;
   font-weight: 600;
   color: var(--color-text-primary);
@@ -69,6 +109,15 @@
   gap: 8px;
   flex: 1;
   margin-top: 36px;
+}
+
+.sectionTitle {
+  margin: 0 0 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
 }
 
 .nav {
@@ -99,6 +148,7 @@
 
   &.active {
     background-color: rgba(217, 155, 67, 0.08);
+    border-color: rgba(217, 155, 67, 0.25);
     color: var(--color-accent);
 
     .navIcon {
