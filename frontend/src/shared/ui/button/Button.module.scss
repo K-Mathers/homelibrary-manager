@@ -31,6 +31,27 @@
     cursor: not-allowed;
     transform: none !important;
   }
+
+  &.sm {
+    height: 28px;
+    padding: 0 10px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  &.md {
+    height: 36px;
+    padding: 0 16px;
+    font-size: 13px;
+    gap: 8px;
+  }
+
+  &.lg {
+    height: 42px;
+    padding: 0 20px;
+    font-size: 14px;
+    gap: 10px;
+  }
 }
 
 .primary {
@@ -90,4 +111,17 @@
 .label {
   display: inline-block;
   line-height: 1;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

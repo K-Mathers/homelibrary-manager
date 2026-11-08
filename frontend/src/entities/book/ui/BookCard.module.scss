@@ -17,10 +17,10 @@
 .previewContainer {
   position: relative;
   width: 100%;
-  height: 234px;
+  height: 246px;
   background-color: var(--color-surface-2);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,8 +33,8 @@
 
 .moreButton {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 10px;
+  right: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -57,11 +57,12 @@
 }
 
 .bookCover {
-  width: 148px;
-  height: 222px;
+  width: 136px;
+  height: 196px;
   border-radius: 4px;
-  background-color: var(--color-placeholder-fill);
-  border: 1px solid var(--color-border);
+  background-color: #121216;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,13 +79,13 @@
 .coverPlaceholder {
   width: 100%;
   height: 100%;
-  padding: 16px 12px;
+  padding: 16px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .placeholderIcon {
@@ -95,14 +96,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
 .coverTitle {
   font-family: var(--font-sans);
   font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-secondary);
   line-height: 1.25;
@@ -114,9 +115,9 @@
 
 .coverAuthor {
   font-family: var(--font-sans);
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--color-text-muted);
   line-height: 1.2;
@@ -131,8 +132,8 @@
 
 .title {
   margin: 0;
-  font-family: var(--font-serif);
-  font-size: 15px;
+  font-family: var(--font-sans);
+  font-size: 14px;
   font-weight: 500;
   color: var(--color-text-primary);
   line-height: 1.3;
@@ -165,7 +166,7 @@
   gap: 6px;
   font-family: var(--font-sans);
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .statusDot {
@@ -176,7 +177,7 @@
 }
 
 .statusReading {
-  color: var(--color-accent);
+  color: var(--color-text-primary);
 
   .statusDot {
     background-color: var(--color-accent);
@@ -184,10 +185,10 @@
 }
 
 .statusCompleted {
-  color: var(--color-status-completed);
+  color: var(--color-text-secondary);
 
   .statusDot {
-    background-color: var(--color-status-completed);
+    background-color: var(--color-text-secondary);
   }
 }
 
@@ -195,7 +196,7 @@
   color: var(--color-text-secondary);
 
   .statusDot {
-    background-color: var(--color-status-planned);
+    background-color: var(--color-text-muted);
   }
 }
 
@@ -217,13 +218,13 @@
 }
 
 .starEmpty {
-  color: #2e2e34;
-  fill: #2e2e34;
+  color: #24242b;
+  fill: #24242b;
 }
 
 .progressBar {
   width: 100%;
-  height: 3px;
+  height: 2px;
   background-color: var(--color-border);
   border-radius: 9999px;
   overflow: hidden;

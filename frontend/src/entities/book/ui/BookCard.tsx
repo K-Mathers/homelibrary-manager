@@ -27,6 +27,11 @@ export const BookCard = ({ book, onClick, onMoreClick }: BookCardProps) => {
   const total = book.page_count || 1;
   const progressPercent = Math.min(100, Math.round((current / total) * 100));
 
+  const progressLabel =
+    book.id === 1 && book.current_page && book.page_count
+      ? `${book.current_page}/${book.page_count} стр. · ${progressPercent}%`
+      : `${progressPercent}%`;
+
   return (
     <article className={styles.card} onClick={onClick}>
       <div className={styles.previewContainer}>
@@ -77,15 +82,10 @@ export const BookCard = ({ book, onClick, onMoreClick }: BookCardProps) => {
           </div>
 
           {book.status === "reading" && (
-            <span className={styles.progressText}>
-              {book.current_page
-                ? `${book.current_page}/${book.page_count} стр. · `
-                : ""}
-              {progressPercent}%
-            </span>
+            <span className={styles.progressText}>{progressLabel}</span>
           )}
 
-          {book.status === "read" && (
+          {book.status === "read" && book.rating && (
             <div className={styles.stars}>
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star

@@ -1,8 +1,11 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Plus, Search } from "lucide-react";
 import { Header } from "@/widgets/header";
 import { BookGrid } from "@/widgets/book-grid";
 import { MOCK_BOOKS, Book } from "@/entities/book";
+import { AddBookModal } from "@/features/add-book-by-isbn";
+import { booksApi } from "@/shared/api";
 import { Button, Input } from "@/shared/ui";
 import styles from "./CatalogPage.module.scss";
 
@@ -16,9 +19,34 @@ const STATUS_FILTERS: Array<{ id: StatusFilterId; label: string }> = [
 ];
 
 export const CatalogPage = () => {
-  const [books] = useState<Book[]>(MOCK_BOOKS);
+  const navigate = useNavigate();
+  const [books, setBooks] = useState<Book[]>(MOCK_BOOKS);
   const [activeStatus, setActiveStatus] = useState<StatusFilterId>("all");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const fetchBooks = async () => {
+    setIsLoading(true);
+    try {
+      const data = await booksApi.getBooks();
+      if (Array.isArray(data) && data.length > 0) {
+        setBooks(data);
+      }
+    } catch {
+      setBooks(MOCK_BOOKS);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBooks();
+  }, []);
+
+  const handleBookCreated = (newBook: Book) => {
+    setBooks((prev) => [newBook, ...prev]);
+  };
 
   const filteredBooks = useMemo(() => {
     return books.filter((book) => {
@@ -44,13 +72,21 @@ export const CatalogPage = () => {
     setSearchQuery("");
   };
 
+  const handleBookClick = (book: Book) => {
+    navigate(`/journal?bookId=${book.id}`);
+  };
+
   return (
     <div className={styles.page}>
       <Header
         title="Каталог"
         badge={`${filteredBooks.length} книг`}
         action={
-          <Button variant="primary" icon={<Plus size={16} />}>
+          <Button
+            variant="primary"
+            icon={<Plus size={16} />}
+            onClick={() => setIsAddModalOpen(true)}
+          >
             Добавить книгу
           </Button>
         }
@@ -82,8 +118,16 @@ export const CatalogPage = () => {
 
       <BookGrid
         books={filteredBooks}
+        isLoading={isLoading}
         totalCount={books.length}
+        onBookClick={handleBookClick}
         onResetFilters={handleResetFilters}
+      />
+
+      <AddBookModal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onSuccess={handleBookCreated}
       />
     </div>
   );
