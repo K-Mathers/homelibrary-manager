@@ -1,3 +1,5 @@
-export * from "./base";
-export * from "./booksApi";
-export * from "./readingApi";
+export { apiClient } from "./base";
+export { booksApi } from "./booksApi";
+export { readingApi } from "./readingApi";
+export { statsApi } from "./statsApi";
+export type { ReadingStatsSummary } from "./statsApi";

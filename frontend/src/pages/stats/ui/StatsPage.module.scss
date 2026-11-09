@@ -1,0 +1,237 @@
+.page {
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    padding: 20px 16px;
+    gap: 18px;
+  }
+}
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  width: 100%;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: 540px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.kpiCard {
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-sizing: border-box;
+  transition: border-color 150ms ease;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.14);
+  }
+}
+
+.kpiHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kpiLabel {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.kpiIcon {
+  color: var(--color-text-muted);
+}
+
+.kpiIconAccent {
+  color: var(--color-accent);
+}
+
+.kpiValue {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.kpiSubtext {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.twoColGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  width: 100%;
+
+  @media (max-width: 960px) {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.panelCard {
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.panelTitle {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.goalRow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.goalProgressNumbers {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.goalNumbersGroup {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.goalCurrent {
+  font-family: var(--font-sans);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1;
+}
+
+.goalTarget {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.goalPercent {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-accent);
+}
+
+.goalProgressBar {
+  width: 100%;
+  height: 6px;
+  background-color: var(--color-border);
+  border-radius: 9999px;
+  overflow: hidden;
+  margin: 4px 0 8px 0;
+}
+
+.goalProgressFill {
+  height: 100%;
+  background-color: var(--color-accent);
+  border-radius: 9999px;
+  transition: width 200ms ease;
+}
+
+.goalPace {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+.paceIcon {
+  color: var(--color-accent);
+}
+
+.genresList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.genreItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.genreMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.genreName {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--color-text-primary);
+}
+
+.genrePercent {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.genreTrack {
+  width: 100%;
+  height: 4px;
+  background-color: var(--color-border);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.genreFill {
+  height: 100%;
+  border-radius: 9999px;
+}
+
+.footerPeriod {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--color-text-muted);
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}

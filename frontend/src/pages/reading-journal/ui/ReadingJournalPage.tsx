@@ -12,6 +12,9 @@ import {
   formatCurrentDate,
   formatShortDate,
   getBookCoverUrl,
+  addStoredSession,
+  saveBookOverride,
+  applyBookOverrides,
 } from "@/shared/lib";
 import styles from "./ReadingJournalPage.module.scss";
 
@@ -63,7 +66,7 @@ export const ReadingJournalPage = () => {
   const [searchParams] = useSearchParams();
   const bookIdParam = searchParams.get("bookId");
 
-  const [books, setBooks] = useState<Book[]>(MOCK_BOOKS);
+  const [books, setBooks] = useState<Book[]>(() => applyBookOverrides(MOCK_BOOKS));
   const [selectedBookId, setSelectedBookId] = useState<number>(() => {
     if (bookIdParam) return Number(bookIdParam);
     const reading = MOCK_BOOKS.find((b) => b.status === "reading");
@@ -95,10 +98,10 @@ export const ReadingJournalPage = () => {
       try {
         const remoteBooks = await booksApi.getBooks();
         if (Array.isArray(remoteBooks) && remoteBooks.length > 0) {
-          setBooks(remoteBooks);
+          setBooks(applyBookOverrides(remoteBooks));
         }
       } catch {
-        setBooks(MOCK_BOOKS);
+        setBooks(applyBookOverrides(MOCK_BOOKS));
       }
     };
     loadBooks();
@@ -143,6 +146,21 @@ export const ReadingJournalPage = () => {
     const delta = updatedPage - (currentBook.current_page || 0);
     const isFinished = updatedPage >= (currentBook.page_count || 1);
 
+    saveBookOverride(session.book_id, {
+      current_page: updatedPage,
+      status: isFinished ? "read" : undefined,
+    });
+
+    if (delta > 0) {
+      addStoredSession({
+        book_id: session.book_id,
+        start_page: session.start_page,
+        end_page: session.end_page,
+        duration_minutes: session.duration_minutes || 0,
+        notes: session.notes,
+      });
+    }
+
     setBooks((prev) =>
       prev.map((b) => {
         if (b.id === session.book_id) {
@@ -178,6 +196,21 @@ export const ReadingJournalPage = () => {
       Math.max(0, Number(quickPage)),
     );
     const delta = newPageNum - (currentBook.current_page || 0);
+    const isFinished = newPageNum >= (currentBook.page_count || 1);
+
+    saveBookOverride(currentBook.id, {
+      current_page: newPageNum,
+      status: isFinished ? "read" : undefined,
+    });
+
+    if (delta > 0) {
+      addStoredSession({
+        book_id: currentBook.id,
+        start_page: currentBook.current_page || 0,
+        end_page: newPageNum,
+        duration_minutes: 15,
+      });
+    }
 
     try {
       if (delta > 0) {
@@ -195,7 +228,6 @@ export const ReadingJournalPage = () => {
     setBooks((prev) =>
       prev.map((b) => {
         if (b.id === currentBook.id) {
-          const isFinished = newPageNum >= (b.page_count || 1);
           return {
             ...b,
             current_page: newPageNum,
