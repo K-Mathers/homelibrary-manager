@@ -1,8 +1,8 @@
-import { ArrowDownWideNarrow, SearchX } from "lucide-react";
 import { Book, BookCard } from "@/entities/book";
 import { Button } from "@/shared/ui";
 import { BookSkeleton } from "./BookSkeleton";
 import styles from "./BookGrid.module.scss";
+import { SearchX } from "lucide-react";
 
 export interface BookGridProps {
   books: Book[];
@@ -37,7 +37,8 @@ export const BookGrid = ({
         </div>
         <h3 className={styles.emptyTitle}>Книги не найдены</h3>
         <p className={styles.emptyText}>
-          По вашему запросу ничего не нашлось. Попробуйте изменить фильтры или строку поиска.
+          По вашему запросу ничего не нашлось. Попробуйте изменить фильтры или
+          строку поиска.
         </p>
         {onResetFilters && (
           <Button variant="secondary" onClick={onResetFilters}>
@@ -66,11 +67,6 @@ export const BookGrid = ({
         <span className={styles.countText}>
           Показано {books.length} из {total} книг
         </span>
-
-        <button type="button" className={styles.sortButton}>
-          <span>По дате добавления</span>
-          <ArrowDownWideNarrow size={14} />
-        </button>
       </div>
     </div>
   );

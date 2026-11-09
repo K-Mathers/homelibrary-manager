@@ -3,6 +3,7 @@ import styles from "./Sidebar.module.scss";
 import { ReactNode, useState } from "react";
 import { CatalogSVG, DownloadSVG, LogoSVG, NotesSVG, StatsSVG } from "@/assets";
 import { Button } from "@/shared/ui";
+import { statsApi } from "@/shared/api";
 
 interface INavItem {
   title: string;
@@ -22,6 +23,18 @@ const items: INavItem[] = [
 
 export const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleExport = async () => {
+    setIsExporting(true);
+    try {
+      await statsApi.downloadCsv();
+    } catch {
+      void 0;
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   return (
     <aside
@@ -55,7 +68,12 @@ export const Sidebar = () => {
       </div>
 
       <div className={styles.footer}>
-        <Button variant="outlined" icon={<DownloadSVG size={15} />}>
+        <Button
+          variant="outlined"
+          icon={<DownloadSVG size={15} />}
+          isLoading={isExporting}
+          onClick={handleExport}
+        >
           {!isCollapsed && "Экспорт в CSV"}
         </Button>
       </div>

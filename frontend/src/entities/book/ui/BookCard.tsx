@@ -1,5 +1,6 @@
 import { BookOpen, MoreHorizontal, Star } from "lucide-react";
 import { Book, BookStatus } from "../model/types";
+import { getBookCoverUrl } from "@/shared/lib";
 import styles from "./BookCard.module.scss";
 
 export interface BookCardProps {
@@ -32,6 +33,8 @@ export const BookCard = ({ book, onClick, onMoreClick }: BookCardProps) => {
       ? `${book.current_page}/${book.page_count} стр. · ${progressPercent}%`
       : `${progressPercent}%`;
 
+  const coverUrl = getBookCoverUrl(book.cover_image_path);
+
   return (
     <article className={styles.card} onClick={onClick}>
       <div className={styles.previewContainer}>
@@ -48,9 +51,9 @@ export const BookCard = ({ book, onClick, onMoreClick }: BookCardProps) => {
         </button>
 
         <div className={styles.bookCover}>
-          {book.cover_image_path ? (
+          {coverUrl ? (
             <img
-              src={book.cover_image_path}
+              src={coverUrl}
               alt={book.title}
               className={styles.coverImage}
               loading="lazy"

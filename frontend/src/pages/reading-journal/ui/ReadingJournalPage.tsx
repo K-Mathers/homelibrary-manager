@@ -8,7 +8,11 @@ import { RecordSessionModal } from "@/features/record-reading-session";
 import { AddQuoteModal } from "@/features/add-quote";
 import { booksApi, readingApi } from "@/shared/api";
 import { Button } from "@/shared/ui";
-import { formatCurrentDate, formatShortDate } from "@/shared/lib";
+import {
+  formatCurrentDate,
+  formatShortDate,
+  getBookCoverUrl,
+} from "@/shared/lib";
 import styles from "./ReadingJournalPage.module.scss";
 
 interface DisplaySession {
@@ -293,8 +297,11 @@ export const ReadingJournalPage = () => {
       <div className={styles.focusCard}>
         <div className={styles.coverSide}>
           <div className={styles.bookThumb}>
-            {currentBook.cover_image_path ? (
-              <img src={currentBook.cover_image_path} alt={currentBook.title} />
+            {getBookCoverUrl(currentBook.cover_image_path) ? (
+              <img
+                src={getBookCoverUrl(currentBook.cover_image_path)}
+                alt={currentBook.title}
+              />
             ) : (
               <div className={styles.placeholderCover}>
                 <BookOpen size={22} className={styles.placeholderIcon} />
