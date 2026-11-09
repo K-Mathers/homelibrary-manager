@@ -1,6 +1,8 @@
+from pathlib import Path
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.domain.exceptions import (
     BookAlreadyExistsError,
@@ -13,6 +15,10 @@ from app.presentation.api.v1 import books_router, reading_router, stats_router
 
 app = FastAPI(title="Library")
 origins = settings.CORS_ORIGINS
+
+storage_dir = Path(__file__).resolve().parent.parent / "storage"
+storage_dir.mkdir(parents=True, exist_ok=True)
+app.mount("/storage", StaticFiles(directory=str(storage_dir)), name="storage")
 
 
 @app.exception_handler(BookAlreadyExistsError)
